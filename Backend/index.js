@@ -32,7 +32,7 @@ app.use(express.json());
 const MONGO_URI = 'mongodb://127.0.0.1:27017';
 //const MONGO_URI = 'mongodb://mongo-shared-dev:fikTpih4U2!@20.218.241.192:27017/?directConnection=true&appName=mongosh+1.8.2&authMechanism=DEFAULT';
 
-const dbname = 'todos';
+const dbname = 'mongodb://mongo-shared-dev:fikTpih4U2!@mongo:27017/Todos'; // Replace with your database nam
 
 // Connect to MongoDB
 mongoose
@@ -61,6 +61,9 @@ const User = mongoose.model('User', userSchema);
 const Todos = mongoose.model('Todos', todoSchema);
 
 // Route: Fetch all users
+app.get('/health', (req, res) => {
+  res.status(200).send('OK');
+});
 app.get('/api/users', async (req, res) => {
   try {
     const users = await User.find();
@@ -134,7 +137,7 @@ app.get('/', async (req, res) => {
 });
 
 // Start the server
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+app.listen(3000, '0.0.0.0', () => {
+  console.log('Server is running on http://localhost:3000');
 });
 

@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  frontend:
+    build: ./frontend
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+    networks:
+      - app-network
+
+
+  backend:
+    build: ./backend
+    ports:
+      - "3000:3000"  # host:container mapping
+    depends_on:
+      - mongo
+    environment:
+      - DB_URL=mongodb://mongo:27017/Main
+    networks:
+      - app-network
+
+
+  mongo:
+    image: mongo
+    restart: always
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: mongo-shared-dev
+      MONGO_INITDB_ROOT_PASSWORD: fikTpih4U2!
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
